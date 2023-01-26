@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(boids)
+
+add_executable(${PROJECT_NAME} src/main.c)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_compile_options(${PROJECT_NAME} PRIVATE -g)
