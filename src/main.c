@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 
+#include "boid.h"
+
 int main() {
   // initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -32,6 +34,10 @@ int main() {
     return 1;
   }
 
+  // init a boid somewhere on the window
+  Boid boid = {0};
+  boid.position.x = 200;
+  boid.position.y = 200;
 
   // game loop
   int isRunning = 1;
@@ -45,9 +51,11 @@ int main() {
           break;
       }
     }
-    // draw something to test the renderer //XXX
-    SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
     SDL_RenderClear(r);
+
+    // render a boid
+    boid_render(&boid, r);
 
     SDL_RenderPresent(r);
   }
