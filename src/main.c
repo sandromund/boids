@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <time.h>
 
 #include "boid.h"
+#include "constants.h"
 
 int main() {
   // initialize SDL
@@ -16,8 +18,8 @@ int main() {
       "boids",
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
-      800,
-      600,
+      WINDOW_WIDTH,
+      WINDOW_HEIGHT,
       0);
   if (window == NULL) {
     fprintf(stderr, "Could not initialize Window: %s\n", SDL_GetError());
@@ -34,10 +36,14 @@ int main() {
     return 1;
   }
 
-  // init a boid somewhere on the window
-  Boid boid = {0};
-  boid.position.x = 200;
-  boid.position.y = 200;
+  // init random seed
+  srand(time(NULL));
+
+  // init boids somewhere on the window
+  Boid boids[NUM_BOIDS];
+  for (int i = 0; i < NUM_BOIDS; i++) {
+    boids[i] = boid_init();
+  }
 
   // game loop
   int isRunning = 1;
@@ -51,11 +57,20 @@ int main() {
           break;
       }
     }
-    SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
+
+    // update
+    for (int i = 0; i < NUM_BOIDS; i++) {
+      boid_update(boids + i, boids, i);
+    }
+
+    // render
+    SDL_SetRenderDrawColor(r, 0, 0, 180, 255);
     SDL_RenderClear(r);
 
     // render a boid
-    boid_render(&boid, r);
+    for (int i = 0; i < NUM_BOIDS; i++) {
+      boid_render(boids + i, r);
+    }
 
     SDL_RenderPresent(r);
   }
