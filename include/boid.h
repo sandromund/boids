@@ -13,7 +13,7 @@ typedef struct {
 } Boid;
 
 void boid_render(Boid* b, SDL_Renderer* r);
-void boid_update(Boid* b);
+void boid_update(Boid* b, Boid* boids, int index);
 Boid boid_init();
 
 #endif // BOIDS_BOID_H

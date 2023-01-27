@@ -3,6 +3,7 @@
 #include "constants.h"
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void boid_render(Boid* b, SDL_Renderer* r) {
   Vec2dD ptA = {BOID_LENGTH / 2, 0}; // the tip
@@ -38,7 +39,47 @@ void boid_render(Boid* b, SDL_Renderer* r) {
   filledPolygonColor(r, vx, vy, 3, color);
 }
 
-void boid_update(Boid* b) {
+void boid_update(Boid* b, Boid* boids, int index) {
+  // do boid stuff
+  int neighborCount = 0;
+  Vec2dD center = {0};
+  Vec2dD neighborVelocity = {0};
+
+  for (int i = 0; i < NUM_BOIDS; i++) {
+    if (i == index) continue;
+    const Boid other = boids[i];
+    if (vec2dd_dist(b->position, other.position) <= VIEW_RADIUS) {
+      neighborCount++;
+      center.x += other.position.x;
+      center.y += other.position.y;
+      neighborVelocity.x += other.position.x;
+      neighborVelocity.y += other.position.y;
+    }
+  }
+
+  if (neighborCount > 0) {
+    center.x /= neighborCount;
+    center.y /= neighborCount;
+    neighborVelocity.x /= neighborCount;
+    neighborVelocity.y /= neighborCount;
+  }
+
+  Vec2dD target = vec2dd_subtract(center, b->position);
+  target = vec2dd_multScalar(target, COHERENCE_FACTOR);
+
+  neighborVelocity = vec2dd_multScalar(neighborVelocity, ALIGNMENT_FACTOR);
+
+  b->velocity = vec2dd_add(b->velocity, target);
+  b->velocity = vec2dd_add(b->velocity, neighborVelocity);
+
+  // limit to MAX_SPEED
+  const double vel_abs = vec2dd_length(b->velocity);
+  if (vel_abs > MAX_SPEED) {
+    b->velocity = vec2dd_multScalar(b->velocity, 1.0 / vel_abs);
+    b->velocity = vec2dd_multScalar(b->velocity, MAX_SPEED);
+  }
+
+  // add velocity to position
   b->position = vec2dd_add(b->position, b->velocity);
 
   if (b->position.y < 0) b->position.y = WINDOW_HEIGHT - 1;
@@ -46,6 +87,7 @@ void boid_update(Boid* b) {
 
   if (b->position.x < 0) b->position.x = WINDOW_WIDTH - 1;
   if (b->position.x > WINDOW_WIDTH) b->position.x = 0;
+
 }
 
 Boid boid_init() {
@@ -53,11 +95,11 @@ Boid boid_init() {
   b.position.x = rand() % WINDOW_WIDTH;
   b.position.y = rand() % WINDOW_HEIGHT;
 
-  b.velocity.x = rand() % 5 + 1;
+  b.velocity.x = rand() % MAX_SPEED + 1;
   if (rand() % 2) {
     b.velocity.x *= -1;
   }
-  b.velocity.y = rand() % 5 + 1;
+  b.velocity.y = rand() % MAX_SPEED + 1;
   if (rand() % 2) {
     b.velocity.y *= -1;
   }

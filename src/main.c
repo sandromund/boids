@@ -60,7 +60,7 @@ int main() {
 
     // update
     for (int i = 0; i < NUM_BOIDS; i++) {
-      boid_update(boids + i);
+      boid_update(boids + i, boids, i);
     }
 
     // render
