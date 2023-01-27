@@ -36,3 +36,15 @@ Vec2dD vec2dd_rotate(Vec2dD v, int angle) {
   
   return r;
 }
+
+double vec2dd_dot(Vec2dD v1, Vec2dD v2) {
+  return v1.x * v2.x + v1.y * v2.y;
+}
+
+double vec2dd_length(Vec2dD v) {
+  return sqrt(vec2dd_dot(v, v));
+}
+
+double vec2dd_angle(Vec2dD v1, Vec2dD v2) {
+  return acos(vec2dd_dot(v1, v2) / (vec2dd_length(v1) * vec2dd_length(v2)));
+}
