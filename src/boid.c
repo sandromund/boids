@@ -40,6 +40,12 @@ void boid_render(Boid* b, SDL_Renderer* r) {
 
 void boid_update(Boid* b) {
   b->position = vec2dd_add(b->position, b->velocity);
+
+  if (b->position.y < 0) b->position.y = WINDOW_HEIGHT - 1;
+  if (b->position.y > WINDOW_HEIGHT) b->position.y = 0;
+
+  if (b->position.x < 0) b->position.x = WINDOW_WIDTH - 1;
+  if (b->position.x > WINDOW_WIDTH) b->position.x = 0;
 }
 
 Boid boid_init() {
