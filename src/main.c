@@ -38,8 +38,8 @@ int main() {
   Boid boid = {0};
   boid.position.x = 200;
   boid.position.y = 200;
-  boid.velocity.x = 2;
-  boid.velocity.y = 3;
+  boid.velocity.x = -2;
+  boid.velocity.y = 1;
 
   // game loop
   int isRunning = 1;
@@ -53,6 +53,11 @@ int main() {
           break;
       }
     }
+
+    // update
+    boid_update(&boid);
+
+    // render
     SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
     SDL_RenderClear(r);
 

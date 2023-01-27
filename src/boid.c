@@ -1,4 +1,5 @@
 #include "boid.h"
+#include "mathStuff.h"
 #include <SDL2/SDL2_gfxPrimitives.h>
 
 void boid_render(Boid* b, SDL_Renderer* r) {
@@ -8,7 +9,8 @@ void boid_render(Boid* b, SDL_Renderer* r) {
 
   // TODO make rotation dependent on boid's velocity
   // rotate "points" //XXX
-  const int angle = 30;
+  const Vec2dD xAxis = {1, 0};
+  const int angle = DEG(vec2dd_angle(xAxis, b->velocity));
   ptA = vec2dd_rotate(ptA, angle);
   ptB = vec2dd_rotate(ptB, angle);
   ptC = vec2dd_rotate(ptC, angle);
@@ -26,4 +28,8 @@ void boid_render(Boid* b, SDL_Renderer* r) {
 
   const Uint32 color = 0xffff0000; // blue
   filledPolygonColor(r, vx, vy, 3, color);
+}
+
+void boid_update(Boid* b) {
+  b->position = vec2dd_add(b->position, b->velocity);
 }

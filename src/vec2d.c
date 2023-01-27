@@ -1,7 +1,6 @@
 #include <math.h>
 #include "vec2d.h"
-
-#define RAD(x) (M_PI * x / 180)
+#include "mathStuff.h"
 
 Vec2dI vec2di_add(Vec2dI v1, Vec2dI v2) {
   Vec2dI r;
@@ -46,5 +45,9 @@ double vec2dd_length(Vec2dD v) {
 }
 
 double vec2dd_angle(Vec2dD v1, Vec2dD v2) {
-  return acos(vec2dd_dot(v1, v2) / (vec2dd_length(v1) * vec2dd_length(v2)));
+  double length_v1 = vec2dd_length(v1);
+  double length_v2 = vec2dd_length(v2);
+  double dot = vec2dd_dot(v1, v2);
+  double division = dot / (length_v1 * length_v2);
+  return acos(division);
 }

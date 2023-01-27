@@ -13,5 +13,6 @@ typedef struct {
 } Boid;
 
 void boid_render(Boid* b, SDL_Renderer* r);
+void boid_update(Boid* b);
 
 #endif // BOIDS_BOID_H
