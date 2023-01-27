@@ -27,3 +27,12 @@ Vec2dI vec2di_rotate(Vec2dI v, int angle) {
   
   return r;
 }
+
+Vec2dD vec2dd_rotate(Vec2dD v, int angle) {
+  Vec2dD r;
+
+  r.x = v.x * cos(RAD(angle)) - v.y * sin(RAD(angle));
+  r.y = v.x * sin(RAD(angle)) + v.y * cos(RAD(angle));
+  
+  return r;
+}

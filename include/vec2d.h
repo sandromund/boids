@@ -15,5 +15,6 @@ typedef struct {
 } Vec2dD;
 
 Vec2dD vec2dd_add(Vec2dD v1, Vec2dD v2);
+Vec2dD vec2dd_rotate(Vec2dD v, int angle);
 
 #endif // BOIDS_VEC2D_H

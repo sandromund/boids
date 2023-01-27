@@ -16,8 +16,8 @@ int main() {
       "boids",
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
+      1600,
       800,
-      600,
       0);
   if (window == NULL) {
     fprintf(stderr, "Could not initialize Window: %s\n", SDL_GetError());
@@ -38,6 +38,8 @@ int main() {
   Boid boid = {0};
   boid.position.x = 200;
   boid.position.y = 200;
+  boid.velocity.x = 2;
+  boid.velocity.y = 3;
 
   // game loop
   int isRunning = 1;

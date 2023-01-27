@@ -8,7 +8,7 @@
 #define BOID_WIDTH BOID_LENGTH / 2
 
 typedef struct {
-  Vec2dI position; // center of boid
+  Vec2dD position; // center of boid
   Vec2dD velocity;
 } Boid;
 
