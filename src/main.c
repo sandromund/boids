@@ -55,6 +55,14 @@ int main() {
         case SDL_QUIT:
           isRunning = 0;
           break;
+        case SDL_KEYDOWN:
+          switch (event.key.keysym.sym) {
+            case SDLK_r:
+              for (int i = 0; i < NUM_BOIDS; i++) {
+                boids[i] = boid_init();
+              }
+              break;
+          }
       }
     }
 
