@@ -33,3 +33,19 @@ void boid_render(Boid* b, SDL_Renderer* r) {
 void boid_update(Boid* b) {
   b->position = vec2dd_add(b->position, b->velocity);
 }
+
+Boid boid_init() {
+  Boid b = {0};
+  b.position.x = rand() % WINDOW_WIDTH;
+  b.position.y = rand() % WINDOW_HEIGHT;
+
+  b.velocity.x = rand() % 5 + 1;
+  if (rand() % 2) {
+    b.velocity.x *= -1;
+  }
+  b.velocity.y = rand() % 5 + 1;
+  if (rand() % 2) {
+    b.velocity.y *= -1;
+  }
+  return b;
+}

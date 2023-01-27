@@ -14,5 +14,6 @@ typedef struct {
 
 void boid_render(Boid* b, SDL_Renderer* r);
 void boid_update(Boid* b);
+Boid boid_init();
 
 #endif // BOIDS_BOID_H
