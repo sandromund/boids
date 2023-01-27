@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "boid.h"
+#include "constants.h"
 
 int main() {
   // initialize SDL
@@ -16,8 +17,8 @@ int main() {
       "boids",
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
-      1600,
-      800,
+      WINDOW_WIDTH,
+      WINDOW_HEIGHT,
       0);
   if (window == NULL) {
     fprintf(stderr, "Could not initialize Window: %s\n", SDL_GetError());
