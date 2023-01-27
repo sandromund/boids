@@ -35,7 +35,7 @@ void boid_render(Boid* b, SDL_Renderer* r) {
     b->position.y + ptC.y,
   };
 
-  const Uint32 color = 0xffff0000; // blue
+  const Uint32 color = 0xffffffff; // white
   filledPolygonColor(r, vx, vy, 3, color);
 }
 

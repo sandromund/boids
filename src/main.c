@@ -64,7 +64,7 @@ int main() {
     }
 
     // render
-    SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(r, 0, 0, 180, 255);
     SDL_RenderClear(r);
 
     // render a boid
