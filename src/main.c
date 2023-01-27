@@ -62,6 +62,9 @@ int main() {
                 boids[i] = boid_init();
               }
               break;
+            case SDLK_q:
+              isRunning = 0;
+              break;
           }
       }
     }
