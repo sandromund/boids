@@ -7,6 +7,7 @@ typedef struct {
 } Vec2dI;
 
 Vec2dI vec2di_add(Vec2dI v1, Vec2dI v2);
+Vec2dI vec2di_rotate(Vec2dI v, int angle);
 
 typedef struct {
   double x;
