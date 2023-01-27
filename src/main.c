@@ -5,6 +5,7 @@
 
 #include "boid.h"
 #include "constants.h"
+#include "gamestate.h"
 
 int main() {
   // initialize SDL
@@ -39,6 +40,12 @@ int main() {
   // init random seed
   srand(time(NULL));
 
+  // init gamestate
+  Gamestate gamestate;
+  gamestate.alignmentEnabled = 1;
+  gamestate.coherenceEnabled = 1;
+  gamestate.separationEnabled = 1;
+
   // init boids somewhere on the window
   Boid boids[NUM_BOIDS];
   for (int i = 0; i < NUM_BOIDS; i++) {
@@ -65,13 +72,22 @@ int main() {
             case SDLK_q:
               isRunning = 0;
               break;
+            case SDLK_1:
+              gamestate.separationEnabled = gamestate.separationEnabled ? 0 : 1;
+              break;
+            case SDLK_2:
+              gamestate.coherenceEnabled = gamestate.coherenceEnabled ? 0 : 1;
+              break;
+            case SDLK_3:
+              gamestate.alignmentEnabled = gamestate.alignmentEnabled ? 0 : 1;
+              break;
           }
       }
     }
 
     // update
     for (int i = 0; i < NUM_BOIDS; i++) {
-      boid_update(boids + i, boids, i);
+      boid_update(boids + i, boids, i, &gamestate);
     }
 
     // render

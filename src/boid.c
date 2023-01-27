@@ -39,13 +39,13 @@ void boid_render(Boid* b, SDL_Renderer* r) {
   filledPolygonColor(r, vx, vy, 3, color);
 }
 
-void boid_update(Boid* b, Boid* boids, int index) {
+void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
   // do boid stuff
   int neighborCount = 0;
   Vec2dD center = {0};
   Vec2dD neighborVelocity = {0};
 
-  Vec2dD c = {0};
+  Vec2dD separationVector = {0};
  
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == index) continue;
@@ -60,7 +60,7 @@ void boid_update(Boid* b, Boid* boids, int index) {
     }
     if (dist <= ARMLENGTH_RADIUS){
       Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
-      c = vec2dd_add(c, vec2dd_multScalar(pos_diff, -1));
+      separationVector = vec2dd_add(separationVector, vec2dd_multScalar(pos_diff, -1));
     }
   }
 
@@ -76,11 +76,14 @@ void boid_update(Boid* b, Boid* boids, int index) {
 
   neighborVelocity = vec2dd_multScalar(neighborVelocity, ALIGNMENT_FACTOR);
 
-  c = vec2dd_multScalar(c, SEPARATION_FACTOR);
+  separationVector = vec2dd_multScalar(separationVector, SEPARATION_FACTOR);
 
-  b->velocity = vec2dd_add(b->velocity, target);
-  b->velocity = vec2dd_add(b->velocity, neighborVelocity);
-  b->velocity = vec2dd_add(b->velocity, c);
+  if (gs->coherenceEnabled)
+    b->velocity = vec2dd_add(b->velocity, target);
+  if (gs->alignmentEnabled)
+    b->velocity = vec2dd_add(b->velocity, neighborVelocity);
+  if (gs->separationEnabled)
+    b->velocity = vec2dd_add(b->velocity, separationVector);
 
   // limit to MAX_SPEED
   const double vel_abs = vec2dd_length(b->velocity);
