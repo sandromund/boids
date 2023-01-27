@@ -45,15 +45,22 @@ void boid_update(Boid* b, Boid* boids, int index) {
   Vec2dD center = {0};
   Vec2dD neighborVelocity = {0};
 
+  Vec2dD c = {0};
+ 
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == index) continue;
     const Boid other = boids[i];
-    if (vec2dd_dist(b->position, other.position) <= VIEW_RADIUS) {
+    const double dist = vec2dd_dist(b->position, other.position);
+    if (dist <= VIEW_RADIUS) {
       neighborCount++;
       center.x += other.position.x;
       center.y += other.position.y;
       neighborVelocity.x += other.position.x;
       neighborVelocity.y += other.position.y;
+    }
+    if (dist <= ARMLENGTH_RADIUS){
+      Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
+      c = vec2dd_add(c, vec2dd_multScalar(pos_diff, -1));
     }
   }
 
@@ -69,8 +76,11 @@ void boid_update(Boid* b, Boid* boids, int index) {
 
   neighborVelocity = vec2dd_multScalar(neighborVelocity, ALIGNMENT_FACTOR);
 
+  c = vec2dd_multScalar(c, SEPARATION_FACTOR);
+
   b->velocity = vec2dd_add(b->velocity, target);
   b->velocity = vec2dd_add(b->velocity, neighborVelocity);
+  b->velocity = vec2dd_add(b->velocity, c);
 
   // limit to MAX_SPEED
   const double vel_abs = vec2dd_length(b->velocity);
