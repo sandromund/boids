@@ -19,7 +19,7 @@ void boid_render(Boid* b, SDL_Renderer* r) {
 
     angle %= 360;
   }
-  
+
   ptA = vec2dd_rotate(ptA, angle);
   ptB = vec2dd_rotate(ptB, angle);
   ptC = vec2dd_rotate(ptC, angle);
@@ -46,7 +46,7 @@ void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
   Vec2dD neighborVelocity = {0};
 
   Vec2dD separationVector = {0};
- 
+
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == index) continue;
     const Boid other = boids[i];
