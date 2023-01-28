@@ -5,6 +5,7 @@ typedef struct {
   int coherenceEnabled;
   int alignmentEnabled;
   int separationEnabled;
+  int pauseEnabled;
 } Gamestate;
 
 #endif // BOIDS_GAMESTATE_H

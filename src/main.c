@@ -45,6 +45,7 @@ int main() {
   gamestate.alignmentEnabled = 1;
   gamestate.coherenceEnabled = 1;
   gamestate.separationEnabled = 1;
+  gamestate.pauseEnabled = 0;
 
   // init boids somewhere on the window
   Boid boids[NUM_BOIDS];
@@ -69,6 +70,9 @@ int main() {
                 boids[i] = boid_init();
               }
               break;
+            case SDLK_p:
+              gamestate.pauseEnabled = gamestate.pauseEnabled ? 0 : 1;
+              break;
             case SDLK_q:
               isRunning = 0;
               break;
@@ -86,8 +90,10 @@ int main() {
     }
 
     // update
-    for (int i = 0; i < NUM_BOIDS; i++) {
-      boid_update(boids + i, boids, i, &gamestate);
+    if (!gamestate.pauseEnabled) {
+      for (int i = 0; i < NUM_BOIDS; i++) {
+        boid_update(boids + i, boids, i, &gamestate);
+      }
     }
 
     // render
