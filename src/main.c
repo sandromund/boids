@@ -70,6 +70,11 @@ int main() {
                 boids[i] = boid_init();
               }
               break;
+            case SDLK_v:
+              for (int i = 0; i < NUM_BOIDS; i++) {
+                boid_randomizeVelocity(boids + i);
+              }
+              break;
             case SDLK_p:
               gamestate.pauseEnabled = gamestate.pauseEnabled ? 0 : 1;
               break;

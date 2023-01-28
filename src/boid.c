@@ -118,3 +118,14 @@ Boid boid_init() {
   }
   return b;
 }
+
+void boid_randomizeVelocity(Boid* b) {
+  b->velocity.x = rand() % MAX_SPEED + 1;
+  if (rand() % 2) {
+    b->velocity.x *= -1;
+  }
+  b->velocity.y = rand() % MAX_SPEED + 1;
+  if (rand() % 2) {
+    b->velocity.y *= -1;
+  }
+}

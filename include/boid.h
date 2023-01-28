@@ -16,5 +16,6 @@ typedef struct {
 void boid_render(Boid* b, SDL_Renderer* r);
 void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs);
 Boid boid_init();
+void boid_randomizeVelocity(Boid* b);
 
 #endif // BOIDS_BOID_H
