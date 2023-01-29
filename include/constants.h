@@ -9,7 +9,7 @@
 #define ARMLENGTH_RADIUS 40
 #define ALIGNMENT_FACTOR 0.01
 #define SEPARATION_FACTOR 0.05
-#define COHERENCE_FACTOR 0.02
+#define COHESION_FACTOR 0.02
 #define MAX_SPEED 5 // in px per frame
 #define FIELD_OF_VIEW 200 // in degrees
 

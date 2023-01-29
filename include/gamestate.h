@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef struct {
-  bool coherenceEnabled;
+  bool cohesionEnabled;
   bool alignmentEnabled;
   bool separationEnabled;
   bool pauseEnabled;

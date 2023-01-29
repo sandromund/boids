@@ -44,7 +44,7 @@ int main() {
   // init gamestate
   Gamestate gamestate;
   gamestate.alignmentEnabled = true;
-  gamestate.coherenceEnabled = true;
+  gamestate.cohesionEnabled = true;
   gamestate.separationEnabled = true;
   gamestate.pauseEnabled = false;
   gamestate.fovEnabled = true;
@@ -91,7 +91,7 @@ int main() {
               gamestate.separationEnabled = gamestate.separationEnabled ? 0 : 1;
               break;
             case SDLK_2:
-              gamestate.coherenceEnabled = gamestate.coherenceEnabled ? 0 : 1;
+              gamestate.cohesionEnabled = gamestate.cohesionEnabled ? 0 : 1;
               break;
             case SDLK_3:
               gamestate.alignmentEnabled = gamestate.alignmentEnabled ? 0 : 1;
