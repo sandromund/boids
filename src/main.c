@@ -47,6 +47,7 @@ int main() {
   gamestate.separationEnabled = 1;
   gamestate.pauseEnabled = 0;
   gamestate.fovEnabled = 1;
+  gamestate.stepEnabled = 0;
 
   // init boids somewhere on the window
   Boid boids[NUM_BOIDS];
@@ -82,6 +83,9 @@ int main() {
             case SDLK_q:
               isRunning = 0;
               break;
+            case SDLK_s:
+              gamestate.stepEnabled = gamestate.stepEnabled ? 0 : 1;
+              break;
             case SDLK_1:
               gamestate.separationEnabled = gamestate.separationEnabled ? 0 : 1;
               break;
@@ -99,7 +103,7 @@ int main() {
     }
 
     // update
-    if (!gamestate.pauseEnabled) {
+    if (!gamestate.pauseEnabled || gamestate.stepEnabled) {
       for (int i = 0; i < NUM_BOIDS; i++) {
         boid_update(boids + i, boids, i, &gamestate);
       }
@@ -115,6 +119,7 @@ int main() {
     }
 
     SDL_RenderPresent(r);
+    gamestate.stepEnabled = 0;
   }
 
   SDL_DestroyRenderer(r);

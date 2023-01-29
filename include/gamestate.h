@@ -7,6 +7,7 @@ typedef struct {
   int separationEnabled;
   int pauseEnabled;
   int fovEnabled;
+  int stepEnabled;
 } Gamestate;
 
 #endif // BOIDS_GAMESTATE_H

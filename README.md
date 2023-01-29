@@ -20,6 +20,7 @@ $ ./boids
 
 - q: quit
 - p: toggle pause
+- s: do 1 update step
 - r: reset boids to random positions and velocities
 - v: reset boids' velocities to random values
 - 1: toggle separation
