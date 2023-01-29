@@ -1,5 +1,5 @@
-#ifndef BOIDS_CONSTATS_H
-#define BOIDS_CONSTATS_H
+#ifndef BOIDS_CONSTANTS_H
+#define BOIDS_CONSTANTS_H
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 800
@@ -13,4 +13,4 @@
 
 #define MAX_SPEED 5
 
-#endif // BOIDS_CONSTATS_H
+#endif // BOIDS_CONSTANTS_H
