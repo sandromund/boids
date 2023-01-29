@@ -4,13 +4,13 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 800
 
-#define NUM_BOIDS 100
+#define NUM_BOIDS 10
 #define VIEW_RADIUS 200
 #define ARMLENGTH_RADIUS 40
-#define ALIGNMENT_FACTOR 0.001
+#define ALIGNMENT_FACTOR 0.01
 #define SEPARATION_FACTOR 0.05
-#define COHERENCE_FACTOR 0.01
-
-#define MAX_SPEED 5
+#define COHERENCE_FACTOR 0.02
+#define MAX_SPEED 5 // in px per frame
+#define FIELD_OF_VIEW 200 // in degrees
 
 #endif // BOIDS_CONSTANTS_H

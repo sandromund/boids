@@ -46,6 +46,7 @@ int main() {
   gamestate.coherenceEnabled = 1;
   gamestate.separationEnabled = 1;
   gamestate.pauseEnabled = 0;
+  gamestate.fovEnabled = 1;
 
   // init boids somewhere on the window
   Boid boids[NUM_BOIDS];
@@ -89,6 +90,9 @@ int main() {
               break;
             case SDLK_3:
               gamestate.alignmentEnabled = gamestate.alignmentEnabled ? 0 : 1;
+              break;
+            case SDLK_4:
+              gamestate.fovEnabled = gamestate.fovEnabled ? 0 : 1;
               break;
           }
       }

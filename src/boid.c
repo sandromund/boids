@@ -39,6 +39,16 @@ void boid_render(Boid* b, SDL_Renderer* r) {
   filledPolygonColor(r, vx, vy, 3, color);
 }
 
+int isInFov(Boid* b, Boid* other, Gamestate* gs) {
+  if (!gs->fovEnabled) {
+    return 1;
+  }
+
+  double angle = DEG(vec2dd_angle(b->velocity, other->position));
+  printf("%f\n", angle); //XXX
+  return angle <= FIELD_OF_VIEW / 2;
+}
+
 void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
   // do boid stuff
   int neighborCount = 0;
@@ -49,18 +59,19 @@ void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
 
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == index) continue;
-    const Boid other = boids[i];
+    Boid other = boids[i];
     const double dist = vec2dd_dist(b->position, other.position);
-    if (dist <= VIEW_RADIUS) {
+    if (dist <= VIEW_RADIUS && isInFov(b, &other, gs)) {
       neighborCount++;
       center.x += other.position.x;
       center.y += other.position.y;
       neighborVelocity.x += other.position.x;
       neighborVelocity.y += other.position.y;
-    }
-    if (dist <= ARMLENGTH_RADIUS){
-      Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
-      separationVector = vec2dd_add(separationVector, vec2dd_multScalar(pos_diff, -1));
+
+      if (dist <= ARMLENGTH_RADIUS){
+        Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
+        separationVector = vec2dd_add(separationVector, vec2dd_multScalar(pos_diff, -1));
+      }
     }
   }
 

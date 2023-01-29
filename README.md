@@ -25,3 +25,4 @@ $ ./boids
 - 1: toggle separation
 - 2: toggle cohesion
 - 3: toggle alignment
+- 4: toggle FOV
