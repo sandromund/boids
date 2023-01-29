@@ -69,7 +69,7 @@ void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
       neighborVelocity.x += other.position.x;
       neighborVelocity.y += other.position.y;
 
-      if (dist <= ARMLENGTH_RADIUS){
+      if (dist <= AVOIDANCE_RADIUS){
         Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
         separationVector = vec2dd_add(separationVector, vec2dd_multScalar(pos_diff, -1));
       }
