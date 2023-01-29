@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include "boid.h"
 #include "constants.h"
@@ -42,12 +43,12 @@ int main() {
 
   // init gamestate
   Gamestate gamestate;
-  gamestate.alignmentEnabled = 1;
-  gamestate.coherenceEnabled = 1;
-  gamestate.separationEnabled = 1;
-  gamestate.pauseEnabled = 0;
-  gamestate.fovEnabled = 1;
-  gamestate.stepEnabled = 0;
+  gamestate.alignmentEnabled = true;
+  gamestate.coherenceEnabled = true;
+  gamestate.separationEnabled = true;
+  gamestate.pauseEnabled = false;
+  gamestate.fovEnabled = true;
+  gamestate.stepEnabled = false;
 
   // init boids somewhere on the window
   Boid boids[NUM_BOIDS];
@@ -56,14 +57,14 @@ int main() {
   }
 
   // game loop
-  int isRunning = 1;
+  bool isRunning = true;
   while (isRunning) {
     // event loop
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
         case SDL_QUIT:
-          isRunning = 0;
+          isRunning = false;
           break;
         case SDL_KEYDOWN:
           switch (event.key.keysym.sym) {
@@ -81,7 +82,7 @@ int main() {
               gamestate.pauseEnabled = gamestate.pauseEnabled ? 0 : 1;
               break;
             case SDLK_q:
-              isRunning = 0;
+              isRunning = false;
               break;
             case SDLK_s:
               gamestate.stepEnabled = gamestate.stepEnabled ? 0 : 1;
@@ -119,7 +120,7 @@ int main() {
     }
 
     SDL_RenderPresent(r);
-    gamestate.stepEnabled = 0;
+    gamestate.stepEnabled = false;
   }
 
   SDL_DestroyRenderer(r);

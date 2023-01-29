@@ -4,6 +4,7 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 void boid_render(Boid* b, SDL_Renderer* r) {
   Vec2dD ptA = {BOID_LENGTH / 2, 0}; // the tip
@@ -39,9 +40,9 @@ void boid_render(Boid* b, SDL_Renderer* r) {
   filledPolygonColor(r, vx, vy, 3, color);
 }
 
-int isInFov(Boid* b, Boid* other, Gamestate* gs) {
+bool isInFov(Boid* b, Boid* other, Gamestate* gs) {
   if (!gs->fovEnabled) {
-    return 1;
+    return true;
   }
 
   double angle = DEG(vec2dd_angle(b->velocity, other->position));

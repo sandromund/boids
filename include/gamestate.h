@@ -1,13 +1,15 @@
 #ifndef BOIDS_GAMESTATE_H
 #define BOIDS_GAMESTATE_H
 
+#include <stdbool.h>
+
 typedef struct {
-  int coherenceEnabled;
-  int alignmentEnabled;
-  int separationEnabled;
-  int pauseEnabled;
-  int fovEnabled;
-  int stepEnabled;
+  bool coherenceEnabled;
+  bool alignmentEnabled;
+  bool separationEnabled;
+  bool pauseEnabled;
+  bool fovEnabled;
+  bool stepEnabled;
 } Gamestate;
 
 #endif // BOIDS_GAMESTATE_H
