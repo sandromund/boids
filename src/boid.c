@@ -19,7 +19,6 @@ void boid_render(Boid* b, SDL_Renderer* r) {
   // top right
   if (b->velocity.y < 0) {
     angle = 360 - angle;
-
     angle %= 360;
   }
 
@@ -59,6 +58,8 @@ void boid_update(Boid* b, int index, Gamestate* gs) {
 
   Vec2dD separationVector = {0};
 
+  // iterate over all other boids
+  // gather values needed for boid rule application
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == index) continue;
     Boid other = gs->boids[i];
@@ -70,13 +71,14 @@ void boid_update(Boid* b, int index, Gamestate* gs) {
       neighborVelocity.x += other.position.x;
       neighborVelocity.y += other.position.y;
 
-      if (dist <= AVOIDANCE_RADIUS){
+      if (dist <= AVOIDANCE_RADIUS) {
         Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
         separationVector = vec2dd_add(separationVector, vec2dd_multScalar(pos_diff, -1));
       }
     }
   }
 
+  // don't compute avg values if division of zero would occur
   if (neighborCount > 0) {
     center.x /= neighborCount;
     center.y /= neighborCount;
@@ -84,6 +86,7 @@ void boid_update(Boid* b, int index, Gamestate* gs) {
     neighborVelocity.y /= neighborCount;
   }
 
+  // apply weights for boid rules
   Vec2dD target = vec2dd_subtract(center, b->position);
   target = vec2dd_multScalar(target, COHESION_FACTOR);
 
@@ -108,6 +111,7 @@ void boid_update(Boid* b, int index, Gamestate* gs) {
   // add velocity to position
   b->position = vec2dd_add(b->position, b->velocity);
 
+  // handle window edges
   if (b->position.y < 0) b->position.y = WINDOW_HEIGHT - 1;
   if (b->position.y > WINDOW_HEIGHT) b->position.y = 0;
 
