@@ -15,7 +15,7 @@ struct boid {
   Vec2dD velocity;
 };
 
-void boid_render(Boid* b, SDL_Renderer* r);
+void boid_render(Boid* b, int index, SDL_Renderer* r, Gamestate* gs);
 void boid_update(Boid* b, int index, Gamestate* gs);
 Boid boid_init();
 void boid_randomizeVelocity(Boid* b);

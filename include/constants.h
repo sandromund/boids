@@ -11,6 +11,6 @@
 #define SEPARATION_FACTOR 0.05
 #define COHESION_FACTOR 0.02
 #define MAX_SPEED 5 // in px per frame
-#define FIELD_OF_VIEW 200 // in degrees
+#define FIELD_OF_VIEW 360 // in degrees
 
 #endif // BOIDS_CONSTANTS_H

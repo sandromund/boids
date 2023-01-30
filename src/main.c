@@ -49,6 +49,7 @@ int main() {
   gamestate.pauseEnabled = false;
   gamestate.fovEnabled = true;
   gamestate.stepEnabled = false;
+  gamestate.debugViewEnabled = false;
 
   // init boids somewhere on the window
   for (int i = 0; i < NUM_BOIDS; i++) {
@@ -64,6 +65,9 @@ int main() {
       switch (event.type) {
         case SDL_QUIT:
           isRunning = false;
+          break;
+        case SDL_MOUSEBUTTONDOWN:
+          gamestate_handleClick(&gamestate, event.button);
           break;
         case SDL_KEYDOWN:
           switch (event.key.keysym.sym) {
@@ -85,6 +89,15 @@ int main() {
               break;
             case SDLK_s:
               gamestate.stepEnabled = gamestate.stepEnabled ? 0 : 1;
+              break;
+            case SDLK_d:
+              if (!gamestate.debugViewEnabled) {
+                gamestate.debugViewEnabled = true;
+                gamestate.debugView = gamestate_debugView_create();
+              } else {
+                gamestate.debugViewEnabled = false;
+                gamestate_debugView_free(gamestate.debugView);
+              }
               break;
             case SDLK_1:
               gamestate.separationEnabled = gamestate.separationEnabled ? 0 : 1;
@@ -115,7 +128,7 @@ int main() {
 
     // render a boid
     for (int i = 0; i < NUM_BOIDS; i++) {
-      boid_render(gamestate.boids + i, r);
+      boid_render(gamestate.boids + i, i, r, &gamestate);
     }
 
     SDL_RenderPresent(r);

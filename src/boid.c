@@ -8,7 +8,7 @@
 #include "constants.h"
 #include "gamestate.h"
 
-void boid_render(Boid* b, SDL_Renderer* r) {
+void boid_render(Boid* b, int index, SDL_Renderer* r, Gamestate* gs) {
   Vec2dD ptA = {BOID_LENGTH / 2, 0}; // the tip
   Vec2dD ptB = {-1 * (BOID_LENGTH / 2), BOID_WIDTH / 2}; // right rear
   Vec2dD ptC = {-1 * (BOID_LENGTH / 2), -1 * (BOID_WIDTH / 2)}; // left rear
@@ -37,8 +37,16 @@ void boid_render(Boid* b, SDL_Renderer* r) {
     b->position.y + ptC.y,
   };
 
-  const Uint32 color = 0xffffffff; // white
-  filledPolygonColor(r, vx, vy, 3, color);
+  const Uint32 color_normal = 0xffffffff; // white
+  const Uint32 color_selected = 0xff0000ff; // red
+
+  if (gs->debugViewEnabled && index == gs->debugView->activeBoidIndex) {
+    filledPolygonColor(r, vx, vy, 3, color_selected);
+    circleColor(r, b->position.x, b->position.y, VIEW_RADIUS, 0xffffffff);
+    circleColor(r, b->position.x, b->position.y, AVOIDANCE_RADIUS, 0xffffffff);
+  } else {
+    filledPolygonColor(r, vx, vy, 3, color_normal);
+  }
 }
 
 bool isInFov(Boid* b, Boid* other, Gamestate* gs) {
