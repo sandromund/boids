@@ -1,10 +1,12 @@
-#include "boid.h"
-#include "mathStuff.h"
-#include "constants.h"
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+
+#include "boid.h"
+#include "mathStuff.h"
+#include "constants.h"
+#include "gamestate.h"
 
 void boid_render(Boid* b, SDL_Renderer* r) {
   Vec2dD ptA = {BOID_LENGTH / 2, 0}; // the tip
@@ -46,11 +48,10 @@ bool isInFov(Boid* b, Boid* other, Gamestate* gs) {
   }
 
   double angle = DEG(vec2dd_angle(b->velocity, other->position));
-  printf("%f\n", angle); //XXX
   return angle <= FIELD_OF_VIEW / 2;
 }
 
-void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
+void boid_update(Boid* b, int index, Gamestate* gs) {
   // do boid stuff
   int neighborCount = 0;
   Vec2dD center = {0};
@@ -60,7 +61,7 @@ void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs) {
 
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == index) continue;
-    Boid other = boids[i];
+    Boid other = gs->boids[i];
     const double dist = vec2dd_dist(b->position, other.position);
     if (dist <= VIEW_RADIUS && isInFov(b, &other, gs)) {
       neighborCount++;

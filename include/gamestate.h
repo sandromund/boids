@@ -3,13 +3,19 @@
 
 #include <stdbool.h>
 
-typedef struct {
+#include "constants.h"
+#include "boid.h"
+
+typedef struct gamestate Gamestate;
+struct gamestate {
   bool cohesionEnabled;
   bool alignmentEnabled;
   bool separationEnabled;
   bool pauseEnabled;
   bool fovEnabled;
   bool stepEnabled;
-} Gamestate;
+
+  Boid boids[NUM_BOIDS];
+};
 
 #endif // BOIDS_GAMESTATE_H

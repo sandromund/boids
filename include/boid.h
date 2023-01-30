@@ -3,18 +3,20 @@
 
 #include <SDL2/SDL.h>
 #include "vec2d.h"
-#include "gamestate.h"
+
+typedef struct gamestate Gamestate;
 
 #define BOID_LENGTH 30
 #define BOID_WIDTH BOID_LENGTH / 2
 
-typedef struct {
+typedef struct boid Boid;
+struct boid {
   Vec2dD position; // center of boid
   Vec2dD velocity;
-} Boid;
+};
 
 void boid_render(Boid* b, SDL_Renderer* r);
-void boid_update(Boid* b, Boid* boids, int index, Gamestate* gs);
+void boid_update(Boid* b, int index, Gamestate* gs);
 Boid boid_init();
 void boid_randomizeVelocity(Boid* b);
 
