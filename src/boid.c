@@ -40,12 +40,25 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
   const Uint32 color_normal = 0xffffffff; // white
   const Uint32 color_selected = 0xff0000ff; // red
 
+  // draw boids
   if (gs->debugViewEnabled && b->index == gs->debugView->activeBoidIndex) {
     filledPolygonColor(r, vx, vy, 3, color_selected);
     circleColor(r, b->position.x, b->position.y, VIEW_RADIUS, 0xffffffff);
     circleColor(r, b->position.x, b->position.y, AVOIDANCE_RADIUS, 0xffffffff);
   } else {
     filledPolygonColor(r, vx, vy, 3, color_normal);
+  }
+
+  // draw center points of boids
+  if (gs->debugViewEnabled) {
+    SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
+    SDL_Rect rect = {
+      .x = b->position.x - 1,
+      .y = b->position.y - 1,
+      .h = 2,
+      .w = 2
+    };
+    SDL_RenderFillRect(r, &rect);
   }
 }
 
