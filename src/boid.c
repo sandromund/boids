@@ -8,7 +8,7 @@
 #include "constants.h"
 #include "gamestate.h"
 
-void boid_render(Boid* b, int index, SDL_Renderer* r, Gamestate* gs) {
+void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
   Vec2dD ptA = {BOID_LENGTH / 2, 0}; // the tip
   Vec2dD ptB = {-1 * (BOID_LENGTH / 2), BOID_WIDTH / 2}; // right rear
   Vec2dD ptC = {-1 * (BOID_LENGTH / 2), -1 * (BOID_WIDTH / 2)}; // left rear
@@ -40,7 +40,7 @@ void boid_render(Boid* b, int index, SDL_Renderer* r, Gamestate* gs) {
   const Uint32 color_normal = 0xffffffff; // white
   const Uint32 color_selected = 0xff0000ff; // red
 
-  if (gs->debugViewEnabled && index == gs->debugView->activeBoidIndex) {
+  if (gs->debugViewEnabled && b->index == gs->debugView->activeBoidIndex) {
     filledPolygonColor(r, vx, vy, 3, color_selected);
     circleColor(r, b->position.x, b->position.y, VIEW_RADIUS, 0xffffffff);
     circleColor(r, b->position.x, b->position.y, AVOIDANCE_RADIUS, 0xffffffff);
@@ -58,7 +58,7 @@ bool isInFov(Boid* b, Boid* other, Gamestate* gs) {
   return angle <= FIELD_OF_VIEW / 2;
 }
 
-void boid_update(Boid* b, int index, Gamestate* gs) {
+void boid_update(Boid* b, Gamestate* gs) {
   // do boid stuff
   int neighborCount = 0;
   Vec2dD center = {0};
@@ -67,9 +67,10 @@ void boid_update(Boid* b, int index, Gamestate* gs) {
   Vec2dD separationVector = {0};
 
   // iterate over all other boids
+  //
   // gather values needed for boid rule application
   for (int i = 0; i < NUM_BOIDS; i++) {
-    if (i == index) continue;
+    if (i == b->index) continue;
     Boid other = gs->boids[i];
     const double dist = vec2dd_dist(b->position, other.position);
     if (dist <= VIEW_RADIUS && isInFov(b, &other, gs)) {
@@ -128,10 +129,11 @@ void boid_update(Boid* b, int index, Gamestate* gs) {
 
 }
 
-Boid boid_init() {
+Boid boid_init(int index) {
   Boid b = {0};
   b.position.x = rand() % WINDOW_WIDTH;
   b.position.y = rand() % WINDOW_HEIGHT;
+  b.index = index;
 
   b.velocity.x = rand() % MAX_SPEED + 1;
   if (rand() % 2) {

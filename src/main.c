@@ -53,7 +53,7 @@ int main() {
 
   // init boids somewhere on the window
   for (int i = 0; i < NUM_BOIDS; i++) {
-    gamestate.boids[i] = boid_init();
+    gamestate.boids[i] = boid_init(i);
   }
 
   // game loop
@@ -73,7 +73,7 @@ int main() {
           switch (event.key.keysym.sym) {
             case SDLK_r:
               for (int i = 0; i < NUM_BOIDS; i++) {
-                gamestate.boids[i] = boid_init();
+                gamestate.boids[i] = boid_init(i);
               }
               break;
             case SDLK_v:
@@ -118,7 +118,7 @@ int main() {
     // update
     if (!gamestate.pauseEnabled || gamestate.stepEnabled) {
       for (int i = 0; i < NUM_BOIDS; i++) {
-        boid_update(gamestate.boids + i, i, &gamestate);
+        boid_update(gamestate.boids + i, &gamestate);
       }
     }
 
@@ -128,7 +128,7 @@ int main() {
 
     // render a boid
     for (int i = 0; i < NUM_BOIDS; i++) {
-      boid_render(gamestate.boids + i, i, r, &gamestate);
+      boid_render(gamestate.boids + i, r, &gamestate);
     }
 
     SDL_RenderPresent(r);
