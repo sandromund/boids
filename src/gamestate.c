@@ -11,11 +11,19 @@ DebugView* gamestate_debugView_create() {
     return NULL;
   }
 
+  dv->font = TTF_OpenFont(DEBUG_FONT_PATH, DEBUG_FONT_SIZE);
+  if (dv->font == NULL) {
+    return NULL;
+  }
+
   return dv;
 }
 
 void gamestate_debugView_free(DebugView* dv) {
   if (dv != NULL) {
+    if (dv->font != NULL) {
+      TTF_CloseFont(dv->font);
+    }
     free(dv);
   }
 }

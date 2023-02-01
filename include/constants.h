@@ -13,4 +13,7 @@
 #define MAX_SPEED 5 // in px per frame
 #define FIELD_OF_VIEW 360 // in degrees
 
+#define DEBUG_FONT_PATH "ttf/Hack-Regular.ttf"
+#define DEBUG_FONT_SIZE 10 // pt
+
 #endif // BOIDS_CONSTANTS_H

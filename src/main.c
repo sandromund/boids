@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <time.h>
 #include <stdbool.h>
 
@@ -33,6 +34,15 @@ int main() {
   SDL_Renderer* r = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (r == NULL) {
     fprintf(stderr, "Could not initialize renderer: %s\n", SDL_GetError());
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return 1;
+  }
+
+  // initialize SDL_TTF
+  if (TTF_Init() == -1) {
+    fprintf(stderr, "Could not initialize TTF: %s\n", SDL_GetError());
+    SDL_DestroyRenderer(r);
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 1;

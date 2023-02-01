@@ -2,6 +2,7 @@
 #define BOIDS_GAMESTATE_H
 
 #include <stdbool.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "constants.h"
 #include "boid.h"
@@ -11,6 +12,8 @@ struct debugView {
   int activeBoidIndex;
   Boid* activeBoidNeighbors[NUM_BOIDS];
   int activeBoidNeighborCount;
+
+  TTF_Font* font;
 };
 
 DebugView* gamestate_debugView_create();

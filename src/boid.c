@@ -1,4 +1,5 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -7,6 +8,7 @@
 #include "mathStuff.h"
 #include "constants.h"
 #include "gamestate.h"
+#include "font.h"
 
 void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
   Vec2dD ptA = {BOID_LENGTH / 2, 0}; // the tip
@@ -49,8 +51,8 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
     filledPolygonColor(r, vx, vy, 3, color_normal);
   }
 
-  // draw center points of boids
   if (gs->debugViewEnabled) {
+    // draw center points of boids
     SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
     SDL_Rect rect = {
       .x = b->position.x - 1,
@@ -59,6 +61,27 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
       .w = 2
     };
     SDL_RenderFillRect(r, &rect);
+
+    // draw boid's ID
+    SDL_Color textColor = {255, 0, 0, 255};
+    char textBuffer[4];
+    sprintf(textBuffer, "%03d", b->index);
+    textBuffer[3] = '\0'; // just in case...
+                          //
+    SDL_Texture* textTexture = createTextTexture(
+        textColor,
+        textBuffer,
+        gs->debugView->font,
+        r
+    );
+
+    SDL_Rect dstRect;
+    SDL_QueryTexture(textTexture, NULL, NULL, &dstRect.w, &dstRect.h);
+    dstRect.x = b->position.x + BOID_WIDTH;
+    dstRect.y = b->position.y + BOID_WIDTH;
+
+    SDL_RenderCopy(r, textTexture, NULL, &dstRect);
+    SDL_DestroyTexture(textTexture);
   }
 }
 

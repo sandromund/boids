@@ -12,9 +12,14 @@
 $ mkdir build
 $ cd build
 $ cmake ..
+#---
 $ make
 $ ./boids
+$ cd ..
+$ ./build/boids
 ```
+
+Steps before `#---` are only needed the first time.
 
 ## Key bindings
 
