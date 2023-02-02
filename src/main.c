@@ -104,6 +104,14 @@ int main() {
               if (!gamestate.debugViewEnabled) {
                 gamestate.debugViewEnabled = true;
                 gamestate.debugView = gamestate_debugView_create();
+                if (gamestate.debugView == NULL) {
+                  fprintf(stderr, "Cannot load font. Aborting\n");
+                  TTF_Quit();
+                  SDL_DestroyRenderer(r);
+                  SDL_DestroyWindow(window);
+                  SDL_Quit();
+                  return 1;
+                }
               } else {
                 gamestate.debugViewEnabled = false;
                 gamestate_debugView_free(gamestate.debugView);
