@@ -10,8 +10,7 @@
 typedef struct debugView DebugView;
 struct debugView {
   int activeBoidIndex;
-  Boid* activeBoidNeighbors[NUM_BOIDS];
-  int activeBoidNeighborCount;
+  bool activeBoidNeighbors[NUM_BOIDS];
 
   TTF_Font* font;
 };

@@ -41,13 +41,22 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
 
   const Uint32 color_normal = 0xffffffff; // white
   const Uint32 color_selected = 0xff0000ff; // red
+  const Uint32 color_neighbor = 0xff00ffff; // yellow
 
-  // draw boids
-  if (gs->debugViewEnabled && b->index == gs->debugView->activeBoidIndex) {
-    filledPolygonColor(r, vx, vy, 3, color_selected);
-    circleColor(r, b->position.x, b->position.y, VIEW_RADIUS, 0xffffffff);
-    circleColor(r, b->position.x, b->position.y, AVOIDANCE_RADIUS, 0xffffffff);
+  // draw boid
+  if (gs->debugViewEnabled) {
+    if (gs->debugView->activeBoidIndex > -1
+        && b->index == gs->debugView->activeBoidIndex) {
+      filledPolygonColor(r, vx, vy, 3, color_selected);
+      circleColor(r, b->position.x, b->position.y, VIEW_RADIUS, 0xffffffff);
+      circleColor(r, b->position.x, b->position.y, AVOIDANCE_RADIUS, 0xffffffff);
+    } else if (gs->debugView->activeBoidNeighbors[b->index]) {
+      filledPolygonColor(r, vx, vy, 3, color_neighbor);
+    } else {
+      filledPolygonColor(r, vx, vy, 3, color_normal);
+    }
   } else {
+    // debugView disabled
     filledPolygonColor(r, vx, vy, 3, color_normal);
   }
 
@@ -67,7 +76,7 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
     char textBuffer[4];
     sprintf(textBuffer, "%03d", b->index);
     textBuffer[3] = '\0'; // just in case...
-                          //
+
     SDL_Texture* textTexture = createTextTexture(
         textColor,
         textBuffer,
@@ -115,6 +124,11 @@ void boid_update(Boid* b, Gamestate* gs) {
       center.y += other.position.y;
       neighborVelocity.x += other.position.x;
       neighborVelocity.y += other.position.y;
+
+      if (gs->debugViewEnabled && gs->debugView->activeBoidIndex == b->index) {
+        // enable other in neighbor list
+        gs->debugView->activeBoidNeighbors[i] = true;
+      }
 
       if (dist <= AVOIDANCE_RADIUS) {
         Vec2dD pos_diff = vec2dd_add(other.position, vec2dd_multScalar(b->position, -1));
