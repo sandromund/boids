@@ -59,3 +59,12 @@ void gamestate_handleClick(Gamestate* gs, SDL_MouseButtonEvent e) {
   gs->debugView->activeBoidIndex = closestIndex;
 
 }
+
+void gamestate_debugView_reset(DebugView* dv) {
+  if (dv == NULL) return;
+
+  memset(dv->activeBoidNeighbors, 0, sizeof(bool) * NUM_BOIDS);
+  dv->neighborCenter.x = 0;
+  dv->neighborCenter.y = 0;
+  dv->neighborCount = 0;
+}

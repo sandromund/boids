@@ -20,6 +20,7 @@ struct debugView {
 
 DebugView* gamestate_debugView_create();
 void gamestate_debugView_free(DebugView* dv);
+void gamestate_debugView_reset(DebugView* dv);
 
 typedef struct gamestate Gamestate;
 struct gamestate {

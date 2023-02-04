@@ -137,10 +137,7 @@ int main() {
     if (!gamestate.pauseEnabled || gamestate.stepEnabled) {
       if (gamestate.debugViewEnabled) {
         // reset debugView vars
-        memset(gamestate.debugView->activeBoidNeighbors, 0, sizeof(bool) * NUM_BOIDS);
-        gamestate.debugView->neighborCenter.x = 0;
-        gamestate.debugView->neighborCenter.y = 0;
-        gamestate.debugView->neighborCount = 0;
+        gamestate_debugView_reset(gamestate.debugView);
       }
       for (int i = 0; i < NUM_BOIDS; i++) {
         boid_update(gamestate.boids + i, &gamestate);
