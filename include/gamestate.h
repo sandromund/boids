@@ -6,11 +6,14 @@
 
 #include "constants.h"
 #include "boid.h"
+#include "vec2d.h"
 
 typedef struct debugView DebugView;
 struct debugView {
   int activeBoidIndex;
   bool activeBoidNeighbors[NUM_BOIDS];
+  Vec2dD neighborCenter;
+  int neighborCount;
 
   TTF_Font* font;
 };

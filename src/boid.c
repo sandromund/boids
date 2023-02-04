@@ -128,6 +128,11 @@ void boid_update(Boid* b, Gamestate* gs) {
       if (gs->debugViewEnabled && gs->debugView->activeBoidIndex == b->index) {
         // enable other in neighbor list
         gs->debugView->activeBoidNeighbors[i] = true;
+        gs->debugView->neighborCount++;
+
+        // add data to neighborCenter
+        gs->debugView->neighborCenter.x += other.position.x;
+        gs->debugView->neighborCenter.y += other.position.y;
       }
 
       if (dist <= AVOIDANCE_RADIUS) {

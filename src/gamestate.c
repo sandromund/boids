@@ -19,6 +19,10 @@ DebugView* gamestate_debugView_create() {
   dv->activeBoidIndex = -1;
   memset(dv->activeBoidNeighbors, 0, sizeof(bool) * NUM_BOIDS);
 
+  dv->neighborCenter.x = 0;
+  dv->neighborCenter.y = 0;
+  dv->neighborCount = 0;
+
   return dv;
 }
 

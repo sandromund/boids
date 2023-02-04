@@ -136,7 +136,11 @@ int main() {
     // update
     if (!gamestate.pauseEnabled || gamestate.stepEnabled) {
       if (gamestate.debugViewEnabled) {
+        // reset debugView vars
         memset(gamestate.debugView->activeBoidNeighbors, 0, sizeof(bool) * NUM_BOIDS);
+        gamestate.debugView->neighborCenter.x = 0;
+        gamestate.debugView->neighborCenter.y = 0;
+        gamestate.debugView->neighborCount = 0;
       }
       for (int i = 0; i < NUM_BOIDS; i++) {
         boid_update(gamestate.boids + i, &gamestate);
@@ -147,9 +151,23 @@ int main() {
     SDL_SetRenderDrawColor(r, 0, 0, 180, 255);
     SDL_RenderClear(r);
 
-    // render a boid
+    // render boids
     for (int i = 0; i < NUM_BOIDS; i++) {
       boid_render(gamestate.boids + i, r, &gamestate);
+    }
+
+    // render additional debug elements
+    if (gamestate.debugViewEnabled && gamestate.debugView && gamestate.debugView->activeBoidIndex > -1) {
+      double avg_x = gamestate.debugView->neighborCenter.x / gamestate.debugView->neighborCount;
+      double avg_y = gamestate.debugView->neighborCenter.y / gamestate.debugView->neighborCount;
+
+      SDL_Rect rect;
+      rect.x = avg_x - 2;
+      rect.y = avg_y - 2;
+      rect.h = 4;
+      rect.w = 4;
+      SDL_SetRenderDrawColor(r, 0, 255, 0, 255);
+      SDL_RenderFillRect(r, &rect);
     }
 
     SDL_RenderPresent(r);
