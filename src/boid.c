@@ -151,6 +151,7 @@ void boid_update(Boid* b, Gamestate* gs) {
   Vec2dD target = vec2dd_subtract(center, b->position);
   target = vec2dd_multScalar(target, COHESION_FACTOR);
 
+  neighborVelocity = vec2dd_add(neighborVelocity, vec2dd_multScalar(b->velocity, -1));
   neighborVelocity = vec2dd_multScalar(neighborVelocity, ALIGNMENT_FACTOR);
 
   separationVector = vec2dd_multScalar(separationVector, SEPARATION_FACTOR);
