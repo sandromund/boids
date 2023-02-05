@@ -18,12 +18,6 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
   const Vec2dD xAxis = {1, 0};
   int angle = DEG(vec2dd_angle(xAxis, b->velocity));
 
-  // top right
-  if (b->velocity.y < 0) {
-    angle = 360 - angle;
-    angle %= 360;
-  }
-
   ptA = vec2dd_rotate(ptA, angle);
   ptB = vec2dd_rotate(ptB, angle);
   ptC = vec2dd_rotate(ptC, angle);
@@ -50,6 +44,7 @@ void boid_render(Boid* b, SDL_Renderer* r, Gamestate* gs) {
       filledPolygonColor(r, vx, vy, 3, color_selected);
       circleColor(r, b->position.x, b->position.y, VIEW_RADIUS, 0xffffffff);
       circleColor(r, b->position.x, b->position.y, AVOIDANCE_RADIUS, 0xffffffff);
+
     } else if (gs->debugView->activeBoidNeighbors[b->index]) {
       filledPolygonColor(r, vx, vy, 3, color_neighbor);
     } else {
@@ -99,7 +94,8 @@ bool isInFov(Boid* b, Boid* other, Gamestate* gs) {
     return true;
   }
 
-  double angle = DEG(vec2dd_angle(b->velocity, other->position));
+  const Vec2dD diff = vec2dd_add(other->position, vec2dd_multScalar(b->position, -1));
+  double angle = abs((int) DEG(vec2dd_angle(b->velocity, diff)));
   return angle <= FIELD_OF_VIEW / 2;
 }
 
@@ -112,12 +108,12 @@ void boid_update(Boid* b, Gamestate* gs) {
   Vec2dD separationVector = {0};
 
   // iterate over all other boids
-  //
   // gather values needed for boid rule application
   for (int i = 0; i < NUM_BOIDS; i++) {
     if (i == b->index) continue;
     Boid other = gs->boids[i];
     const double dist = vec2dd_dist(b->position, other.position);
+
     if (dist <= VIEW_RADIUS && isInFov(b, &other, gs)) {
       neighborCount++;
       center.x += other.position.x;
@@ -146,6 +142,7 @@ void boid_update(Boid* b, Gamestate* gs) {
   if (neighborCount > 0) {
     center.x /= neighborCount;
     center.y /= neighborCount;
+
     neighborVelocity.x /= neighborCount;
     neighborVelocity.y /= neighborCount;
   }

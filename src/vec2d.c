@@ -45,11 +45,14 @@ double vec2dd_length(Vec2dD v) {
 }
 
 double vec2dd_angle(Vec2dD v1, Vec2dD v2) {
-  double length_v1 = vec2dd_length(v1);
-  double length_v2 = vec2dd_length(v2);
-  double dot = vec2dd_dot(v1, v2);
-  double division = dot / (length_v1 * length_v2);
-  return acos(division);
+  double angle = atan2(v2.y, v2.x) - atan2(v1.y, v1.x);
+  if (angle > M_PI) {
+    angle -= 2 * M_PI;
+  } else if (angle <= -M_PI) {
+    angle += 2 * M_PI;
+  }
+
+  return angle;
 }
 
 double vec2dd_dist(Vec2dD v1, Vec2dD v2) {
