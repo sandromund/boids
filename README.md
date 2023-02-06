@@ -4,6 +4,7 @@
 
 - SDL2
 - SDL2_gfx
+- SDL2_ttf
 - cmake
 
 ## How to build and run
@@ -33,3 +34,9 @@ Steps before `#---` are only needed the first time.
 - 2: toggle cohesion
 - 3: toggle alignment
 - 4: toggle FOV
+
+## TODO / Next Steps
+
+- Fix / investigate right down tendency
+- Obstacle spawning with mouse click
+- Predator boids
